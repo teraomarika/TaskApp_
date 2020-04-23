@@ -16,7 +16,10 @@ import io.realm.Realm
 class TaskAlarmReceiver:BroadcastReceiver() {
 
     override fun onReceive(context: Context?, intent: Intent?) {
+        Log.d("TaskApp", "onReceive")
         val notificationManager=context!!.getSystemService(Context.NOTIFICATION_SERVICE)as NotificationManager
+
+
             // SDKバージョンが26以上の場合、チャネルを設定する必要がある
             if (Build.VERSION.SDK_INT >= 26) {
                 val channel = NotificationChannel("default",
@@ -44,6 +47,8 @@ class TaskAlarmReceiver:BroadcastReceiver() {
         builder.setTicker(task!!.title)   // 5.0以降は表示されない
         builder.setContentTitle(task.title)
         builder.setContentText(task.contents)
+
+
 // 通知をタップしたらアプリを起動するようにする
         val startAppIntent = Intent(context, MainActivity::class.java)
         startAppIntent.addFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT)

@@ -8,11 +8,36 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <ListView
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/listView1"/>
+        android:layout_height="match_parent">
 
+        <Button
+            android:id="@+id/category_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_toEndOf="@+id/category_edit_text"
+            android:text="🔍" />
+
+        <ListView
+            android:id="@+id/listView1"
+            android:layout_width="match_parent"
+            android:layout_height="650dp">
+
+        </ListView>
+
+        <EditText
+            android:id="@+id/category_edit_text"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"/>
+
+
+
+
+    </RelativeLayout>
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

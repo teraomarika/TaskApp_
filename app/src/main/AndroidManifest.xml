@@ -33,6 +33,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="jp.techacademy.terao.marika.taskapp.MainActivity"/>
         </activity>
+
+        <receiver android:name=".TaskAlarmReceiver"/>
     </application>
 
 </manifest>
