@@ -4,6 +4,7 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import io.realm.Realm
@@ -106,10 +107,15 @@ class MainActivity:AppCompatActivity(){
 
         category_button.setOnClickListener{
 
-            var query=mRealm.where<Task>()
-            query.equalTo("categories","category_edit_text")
 
+            var query=mRealm.where<Task>()
+            query.equalTo("categories",category_edit_text.text.toString())
             val result1=query.findAll()
+
+            Log.d("button","検索")
+            mTaskAdapter.taskList=result1
+            reloadListView()
+
 
         }
     }
@@ -120,6 +126,7 @@ class MainActivity:AppCompatActivity(){
         mTaskAdapter.taskList = mRealm.copyFromRealm(taskRealmResults)
         listView1.adapter = mTaskAdapter
         mTaskAdapter.notifyDataSetChanged()
+
     }
 
 
