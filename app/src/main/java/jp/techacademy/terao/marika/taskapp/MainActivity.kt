@@ -9,7 +9,9 @@ import androidx.appcompat.app.AppCompatActivity
 import io.realm.Realm
 import io.realm.RealmChangeListener
 import io.realm.Sort
+import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_main.*
+
 
 const val EXTRA_TASK = "jp.techacademy.terao.marika.taskapp.TASK"
 
@@ -17,11 +19,15 @@ const val EXTRA_TASK = "jp.techacademy.terao.marika.taskapp.TASK"
 class MainActivity:AppCompatActivity(){
 
     private lateinit var mRealm: Realm
+
+
     private val mRealmListener = object : RealmChangeListener<Realm> {
         override fun onChange(element: Realm) {
             reloadListView()
         }
     }
+
+
     private lateinit var mTaskAdapter: TaskAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,8 +43,14 @@ class MainActivity:AppCompatActivity(){
         mRealm = Realm.getDefaultInstance()
         mRealm.addChangeListener(mRealmListener)
 
+
+
         // ListViewの設定
         mTaskAdapter = TaskAdapter(this@MainActivity)
+
+        category_button.setOnClickListener{
+
+        }
 
 
         // ListViewをタップしたときの処理
@@ -86,7 +98,20 @@ class MainActivity:AppCompatActivity(){
         }
 
 
+
+
+
+
         reloadListView()
+
+        category_button.setOnClickListener{
+
+            var query=mRealm.where<Task>()
+            query.equalTo("categories","category_edit_text")
+
+            val result1=query.findAll()
+
+        }
     }
 
     private fun reloadListView() {
@@ -97,10 +122,14 @@ class MainActivity:AppCompatActivity(){
         mTaskAdapter.notifyDataSetChanged()
     }
 
+
+
     override fun onDestroy() {
         super.onDestroy()
         mRealm.close()
 
     }
+
+
 
 }
