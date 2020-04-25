@@ -10,14 +10,13 @@ import androidx.appcompat.app.AppCompatActivity
 import io.realm.Realm
 import io.realm.RealmChangeListener
 import io.realm.Sort
-import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_main.*
 
 
 const val EXTRA_TASK = "jp.techacademy.terao.marika.taskapp.TASK"
 
 
-class MainActivity:AppCompatActivity(){
+class MainActivity : AppCompatActivity() {
 
     private lateinit var mRealm: Realm
 
@@ -45,11 +44,8 @@ class MainActivity:AppCompatActivity(){
         mRealm.addChangeListener(mRealmListener)
 
 
-
         // ListViewの設定
         mTaskAdapter = TaskAdapter(this@MainActivity)
-
-
 
 
         // ListViewをタップしたときの処理
@@ -96,29 +92,29 @@ class MainActivity:AppCompatActivity(){
             true
         }
 
-
-
-
-
-
         reloadListView()
 
-        category_button.setOnClickListener{
+        category_button.setOnClickListener {
 
-            var query=mRealm.where<Task>()
-            query.equalTo("categories",category_edit_text.text.toString())
-            val result1=query.findAll()
-
-            Log.d("button","検索")
-            mTaskAdapter.taskList=result1
-            mTaskAdapter.taskList=mRealm.copyFromRealm(result1)
-            listView1.adapter=mTaskAdapter
+            if (category_edit_text.text.toString()==""){
+                reloadListView()
+            } else{
+            val result1 =
+                mRealm.where(Task::class.java)
+                    .contains("categories", category_edit_text.text.toString()).findAll()
+                    .sort("date", Sort.DESCENDING)
+            Log.d("button", "カテゴリー：" + category_edit_text.text.toString())
+            Log.d("button", "結果" + result1)
+            Log.d("button", "検索")
+            mTaskAdapter.taskList = mRealm.copyFromRealm(result1)
+            listView1.adapter = mTaskAdapter
             mTaskAdapter.notifyDataSetChanged()
-            reloadListView()
+            }
+
+
+
 
         }
-
-
 
     }
 
@@ -133,13 +129,11 @@ class MainActivity:AppCompatActivity(){
     }
 
 
-
     override fun onDestroy() {
         super.onDestroy()
         mRealm.close()
 
     }
-
 
 
 }
