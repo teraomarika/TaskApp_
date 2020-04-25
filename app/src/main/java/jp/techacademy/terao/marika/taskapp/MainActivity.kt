@@ -49,9 +49,7 @@ class MainActivity:AppCompatActivity(){
         // ListViewの設定
         mTaskAdapter = TaskAdapter(this@MainActivity)
 
-        category_button.setOnClickListener{
 
-        }
 
 
         // ListViewをタップしたときの処理
@@ -107,17 +105,21 @@ class MainActivity:AppCompatActivity(){
 
         category_button.setOnClickListener{
 
-
             var query=mRealm.where<Task>()
             query.equalTo("categories",category_edit_text.text.toString())
             val result1=query.findAll()
 
             Log.d("button","検索")
             mTaskAdapter.taskList=result1
+            mTaskAdapter.taskList=mRealm.copyFromRealm(result1)
+            listView1.adapter=mTaskAdapter
+            mTaskAdapter.notifyDataSetChanged()
             reloadListView()
 
-
         }
+
+
+
     }
 
     private fun reloadListView() {
@@ -126,6 +128,7 @@ class MainActivity:AppCompatActivity(){
         mTaskAdapter.taskList = mRealm.copyFromRealm(taskRealmResults)
         listView1.adapter = mTaskAdapter
         mTaskAdapter.notifyDataSetChanged()
+
 
     }
 
